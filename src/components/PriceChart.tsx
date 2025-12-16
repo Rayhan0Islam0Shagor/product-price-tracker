@@ -10,7 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { Loader2 } from 'lucide-react';
+import { Loader2, TrendingDown } from 'lucide-react';
 import { getPriceHistory } from '@/app/actions/products';
 
 export default function PriceChart({ productId }: { productId: string }) {
@@ -37,7 +37,7 @@ export default function PriceChart({ productId }: { productId: string }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-8 text-gray-500 w-full">
+      <div className="text-center py-8 text-gray-500 w-full min-h-56 flex flex-col items-center justify-center">
         <Loader2 className="w-5 h-5 animate-spin mr-2" />
         Loading chart...
       </div>
@@ -46,18 +46,18 @@ export default function PriceChart({ productId }: { productId: string }) {
 
   if (data.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500 w-full">
-        No price history yet. Check back after the first daily update!
+      <div className="text-center py-8 text-gray-500 w-full min-h-56 flex flex-col items-center justify-center">
+        <TrendingDown className="w-5 h-5 mb-2 text-gray-400" />
+        <h4 className="text-sm font-semibold mb-4 text-gray-700">
+          No price history yet. Check back after the first daily update!
+        </h4>
       </div>
     );
   }
 
   return (
     <div className="w-full">
-      <h4 className="text-sm font-semibold mb-4 text-gray-700">
-        Price History
-      </h4>
-      <ResponsiveContainer width="100%" height={200}>
+      <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke="#9ca3af" />

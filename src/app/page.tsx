@@ -6,6 +6,8 @@ import { getMe } from './actions/get-me';
 import ProductCard from '@/components/ProductCard';
 import { getProducts } from './actions/products';
 
+export const dynamic = 'force-dynamic';
+
 const FEATURES = [
   {
     icon: Rabbit,

@@ -120,3 +120,5 @@ export async function POST(request: Request) {
     );
   }
 }
+
+// curl -X POST https://best-deal-tracker.vercel.app/api/cron/check-price -H "Authorization: Bearer 6979a3544b43085863e5752b1085711b1f5ceb8a48714a2daffba0a949e89e04"

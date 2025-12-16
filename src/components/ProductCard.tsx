@@ -2,30 +2,25 @@
 
 import { useState } from 'react';
 
-// import PriceChart from "./PriceChart";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import {
-  ExternalLink,
-  Trash2,
-  TrendingDown,
-  ChevronDown,
-  ChevronUp,
-} from 'lucide-react';
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
+import { ExternalLink, Trash2, TrendingDown } from 'lucide-react';
 import Link from 'next/link';
 import { deleteProduct } from '@/app/actions/products';
 import type { Product } from '@/types/product';
 import PriceChart from './PriceChart';
 
 export default function ProductCard({ product }: { product: Product }) {
-  const [showChart, setShowChart] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleDelete = async () => {
@@ -66,24 +61,26 @@ export default function ProductCard({ product }: { product: Product }) {
 
       <CardContent>
         <div className="flex flex-wrap gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowChart(!showChart)}
-            className="gap-1"
-          >
-            {showChart ? (
-              <>
-                <ChevronUp className="w-4 h-4" />
-                Hide Chart
-              </>
-            ) : (
-              <>
-                <ChevronDown className="w-4 h-4" />
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-1">
                 Show Chart
-              </>
-            )}
-          </Button>
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <div className="mx-auto w-full max-w-2xl">
+                <DrawerHeader>
+                  <DrawerTitle>Price History</DrawerTitle>
+                  <DrawerDescription>
+                    Track price changes for {product.name}
+                  </DrawerDescription>
+                </DrawerHeader>
+                <div className="p-4 pb-6">
+                  <PriceChart productId={product.id} />
+                </div>
+              </div>
+            </DrawerContent>
+          </Drawer>
 
           <Button variant="outline" size="sm" asChild className="gap-1">
             <Link href={product.url} target="_blank" rel="noopener noreferrer">
@@ -103,12 +100,6 @@ export default function ProductCard({ product }: { product: Product }) {
           </Button>
         </div>
       </CardContent>
-
-      {showChart && (
-        <CardFooter className="pt-0">
-          <PriceChart productId={product.id} />
-        </CardFooter>
-      )}
 
       <ConfirmDialog
         open={showDeleteModal}
